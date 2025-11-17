@@ -1,7 +1,9 @@
-# jj-conflict.nvim
+# jj-conflict-highlight.nvim
 A plugin to visualise jujutsu conflicts in neovim
 
-This plugin is inspired by [git-conflicts.nvim](https://github.com/akinsho/git-conflict.nvim)
+This plugin is inspired by [git-conflict.nvim](https://github.com/akinsho/git-conflict.nvim)
+
+This Plugin focuses on the Highlight part. For more functionality use Plugins like (jj.nvim)[https://github.com/NicolasGB/jj.nvim]
 
 ## Installation
 
@@ -9,12 +11,20 @@ This plugin is inspired by [git-conflicts.nvim](https://github.com/akinsho/git-c
 
 ```lua
 -- packer.nvim
-use {'Spiegie/jj-conflict.nvim', tag = "*", config = function()
-  require('jj-conflict').setup()
-end}
+use {'Spiegie/jj-conflict-highlight.nvim',
+    tag = "*",
+    config = function()
+        require('jj_conflict_highlight').setup()
+    end,
+}
 
 -- lazy.nvim
-{'Spiegie/jj-conflict.nvim', version = "*", config = true}
+{'Spiegie/jj-conflict-highlight.nvim',
+    version = "*",
+    config = function()
+        require("jj_conflict_highlight").setup({})
+    end,
+}
 ```
 
 ### NixOS
@@ -25,13 +35,13 @@ reference: [https://ryantm.github.io/nixpkgs/languages-frameworks/vim/](https://
 { config, pkgs, ... }:
 
 let
-  jj-conflict-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "jj-conflict";
+  jj-conflict-highlight-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "jj-conflict-highlight";
     src = pkgs.fetchFromGitHub {
       owner = "Spiegie";
-      repo = "jj-conflict.nvim";
+      repo = "jj-conflict-highlight.nvim";
       rev = "main"; # use tags here because main can break. for development you can use the branchname.
-      hash = "<hash>"; # get sha by using `nix-prefetch-url https://github.com/Spiegie/jj-conflict.nvim/<rev>` <rev> is the branchname or the tag
+      hash = "<hash>"; # get sha by using `nix-prefetch-url https://github.com/Spiegie/jj-conflict.nvim/<rev> --refresh` <rev> is the branchname or the tag
     };
   };
 in
@@ -57,15 +67,15 @@ in
 or in my case (I'm using Home-manager)
 
 ```nix
-{pkgs, lib, config, ...}:
+{pkgs, config, ...}:
 let
-  jj-conflict-nvim = pkgs.vimUtils.buildVimPlugin {
-    name = "jj-conflict";
+  jj-conflict-highlight-nvim = pkgs.vimUtils.buildVimPlugin {
+    name = "jj-conflict-highlight";
     src = pkgs.fetchFromGitHub {
       owner = "Spiegie";
-      repo = "jj-conflict.nvim";
+      repo = "jj-conflict-highlight.nvim";
       rev = "main"; # use tags here because main can break. for development you can use the branchname.
-      hash = "<hash>"; # get sha by using `nix-prefetch-url https://github.com/Spiegie/jj-conflict.nvim/<rev>` <rev> is the branchname or the tag
+      hash = "<hash>"; # get sha by using `nix-prefetch-url https://github.com/Spiegie/jj-conflict.nvim/<rev> --refresh` <rev> is the branchname or the tag
     };
   };
 in
@@ -80,15 +90,15 @@ in
     plugins = with pkgs.vimPlugins; [
       # ...
       vim-go # already packaged plugin
-      jj-conflict-nvim # custom package
+      jj-conflict-highlight-nvim # custom package
     ];
   };
   # ...
 }
 ```
 with this nixos approach you still have to require and setup the plugin. In my case (I use a very unpure approach):
-```lua ~/.config/nvim/after/plugins/jj-conflict.lua
-require('jj-conflict').setup()
+```lua ~/.config/nvim/after/plugins/jj-conflict-highlight.lua
+require('jj_conflict_highlight').setup()
 ```
 
 ## 🤝 Contributing
